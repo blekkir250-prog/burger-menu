@@ -1,0 +1,117 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    background-color: #f0f2f5;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden; /* Прячет горизонтальный скролл, когда меню скрыто за экраном */
+}
+
+.burger-btn {
+    width: 50px;
+    height: 50px;
+    background: #ffffff;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 100; /* Кнопка должна быть выше меню (у меню 1000, тут стоит поправить на 1001) */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Создаем три линии кнопки из одной: span — это центр, а before и after — верх и низ */
+.burger-btn span,
+.burger-btn span::before,
+.burger-btn span::after {
+    display: block;
+    width: 24px;
+    height: 3px;
+    background: #333;
+    position: absolute; /* Абсолют позволяет наложить их друг на друга */
+    transition: 0.3s ease; /* Плавность для будущей трансформации в крестик */
+}
+
+/* Разводим верхнюю и нижнюю линии от центральной в стороны */
+.burger-btn span::before {
+    content: ''; /* Обязательное свойство, иначе псевдоэлемент не отобразится */
+    top: -8px; 
+}
+
+.burger-btn span::after {
+    content: '';
+    top: 8px; 
+}
+
+/* Анимация крестика: скрываем центральную линию */
+.burger-btn.open span {
+    background: transparent;
+}
+
+/* Схлопываем верхнюю и нижнюю линии в центр и поворачиваем крест-накрест */
+.burger-btn.open span::before {
+    transform: rotate(45deg);
+    top: 0;
+}
+
+.burger-btn.open span::after {
+    transform: rotate(-45deg);
+    top: 0;
+}
+
+.mobile-menu {
+    position: fixed; /* Меню "прилипает" к экрану и не двигается при скролле страницы */
+    top: 0;
+    right: -300px; /* Сдвиг вправо на свою же ширину, чтобы полностью спрятать за экран */
+    
+    width: 300px;
+    height: 100vh; /* Растягивает меню ровно на 100% высоты видимого экрана */
+    
+    background-color: #1a1a1a; 
+    padding: 80px 30px; 
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3); 
+    
+    /* Следит за изменением свойства right. При его смене запустит плавную анимацию */
+    transition: right 0.4s ease-in-out; 
+    z-index: 1000; 
+}
+
+/* Дублирующий класс (кусок nav-menu.active можно удалить, так как ниже используется .mobile-menu.open) */
+.nav-menu.active {
+    right: 0; 
+}
+
+/* Выдвигаем меню обратно на экран, обнуляя отрицательный отступ */
+.mobile-menu.open {
+    right: 0; 
+}
+
+.menu-links{
+    list-style: none;
+    text-align: center;
+}
+
+.menu-links li {
+    margin: 2rem 0; /* 2rem — адаптивный отступ, зависящий от базового размера шрифта */
+}
+
+.menu-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 2rem;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.menu-links a:hover {
+    color: #ff4757;
+}
