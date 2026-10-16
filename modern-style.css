@@ -1,0 +1,126 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    background-color: #0b0f19; /* Глубокий темный неоновый фон */
+    min-height: 100vh;
+    position: relative; 
+    overflow-x: hidden; /* Прячет меню за краем экрана */
+    
+    /* Делаем отступы сверху и слева, чтобы основной текст сайта не залезал под кнопку */
+    padding: 100px 40px; 
+}
+
+/* КНОПКА: Теперь она зафиксирована в ЛЕВОМ верхнем углу */
+.burger-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px; /* Поменяли right на left */
+    width: 60px;
+    height: 60px;
+    background: #1e293b;
+    border: 2px solid #00f2fe; /* Неоновая бирюзовая рамка */
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001; /* Всегда выше меню, чтобы кнопка не перекрывалась */
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.4); /* Неоновое свечение */
+}
+
+/* Три линии внутри кнопки */
+.burger-btn span,
+.burger-btn span::before,
+.burger-btn span::after {
+    display: block;
+    width: 26px;
+    height: 3px;
+    background: #00f2fe; /* Светящиеся линии */
+    position: absolute;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.burger-btn span::before { content: ''; top: -8px; }
+.burger-btn span::after { content: ''; top: 8px; }
+
+/* Анимация крестика */
+.burger-btn.open span { background: transparent; }
+.burger-btn.open span::before { transform: rotate(45deg); top: 0; }
+.burger-btn.open span::after { transform: rotate(-45deg); top: 0; }
+
+
+/* МЕНЮ: Теперь выезжает СЛЕВА и скруглено в правую сторону */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: -360px; /* Прячем за ЛЕВЫЙ край экрана */
+    width: 320px;
+    height: 100vh;
+    background: linear-gradient(135deg, #1e1b4b 0%, #311042 100%); /* Пурпурный градиент */
+    padding: 100px 40px;
+    z-index: 1000;
+    
+    /* Скругляем ПРАВЫЙ край меню вовнутрь, пока оно спрятано */
+    border-radius: 0 100% 100% 0 / 0 50% 50% 0; 
+    
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+    transition: all 0.5s cubic-bezier(0.77, 0, 0.175, 1); /* Плавная анимация */
+}
+
+/* Когда меню выезжает слева, оно расправляется */
+.mobile-menu.open {
+    left: 0; /* Возвращаем на экран по левому краю */
+    border-radius: 0 40px 40px 0 / 0 20px 20px 0; 
+}
+
+/* Список со ссылками внутри меню */
+.menu-links {
+    list-style: none;
+    text-align: left; /* Ссылки внутри меню теперь прижаты к левому краю */
+    margin-top: 50px;
+}
+
+.menu-links li {
+    margin: 2.5rem 0;
+    opacity: 0;
+    transform: translateX(-50px); /* Вылетают слева направо */
+    transition: 0.4s ease;
+}
+
+/* Поочередное появление ссылок при открытии */
+.mobile-menu.open .menu-links li {
+    opacity: 1;
+    transform: translateX(0);
+}
+.mobile-menu.open .menu-links li:nth-child(1) { transition-delay: 0.2s; }
+.mobile-menu.open .menu-links li:nth-child(2) { transition-delay: 0.3s; }
+.mobile-menu.open .menu-links li:nth-child(3) { transition-delay: 0.4s; }
+.mobile-menu.open .menu-links li:nth-child(4) { transition-delay: 0.5s; }
+
+.menu-links a {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+.menu-links a:hover {
+    color: #00f2fe;
+    text-shadow: 0 0 10px rgba(0, 242, 254, 0.8);
+}
+
+/* СТИЛИЗАЦИЯ ДЛЯ ТЕКСТА РЯДОМ С КНОПКОЙ */
+/* Если у тебя обычный текст (например, <h1> или <p>) лежит в HTML рядом с кнопкой, 
+   оформи его в тег, задай класс или этот стиль сделает любой текст на странице неоновым */
+h1, p, span:not(.burger-btn span) {
+    color: #ffffff;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
